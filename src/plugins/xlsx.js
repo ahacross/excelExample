@@ -1,14 +1,19 @@
 // import FileSaver from 'file-saver'
 // import * as XLSX from 'xlsx'
-import { utils, writeFileXLSX } from 'xlsx'
+// import { utils, writeFileXLSX } from 'xlsx'
+import { utils, writeFileXLSX } from 'xlsx-js-style'
 
-function s2ab(s) {
-  const buf = new ArrayBuffer(s.length)
-  const view = new Uint8Array(buf)
-  for (let i = 0, n = s.length; i < n; i++) {
-    view[i] = s.charCodeAt(i) & 0xff
-  }
-  return buf
+const cellStyle = {
+  header: {
+    font: {
+      bold: true,
+    },
+    alignment: {
+      wrapText: true,
+      horizontal: 'center',
+      vertical: 'center',
+    },
+  },
 }
 
 function convert(columns, data) {
@@ -45,7 +50,7 @@ function convert(columns, data) {
   return convertData
 }
 
-function xlsxSaver(filename, columns, data) {
+export function xlsxSave(filename, columns, data) {
   const convertData = convert(columns, data)
   console.log(convertData)
   const wb = utils.book_new()
@@ -60,41 +65,6 @@ function xlsxSaver(filename, columns, data) {
     bookSST: true,
     type: 'binary',
     // type: 'array',
+    cellStyles: true,
   })
-  // try {
-  // const wbout = write(wb, {
-  //   bookType: 'xlsx',
-  //   bookSST: true,
-  //   type: 'binary',
-  //   // type: 'array',
-  // })
-  //   FileSaver.saveAs(
-  //     new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
-  //     `${filename}.xlsx`,
-  //   )
-  // } catch (e) {
-  //   console.error(e, wbout)
-  // }
-  // return wbout
-}
-
-export function exportExcel(filename, columns, data) {
-  return xlsxSaver(filename, columns, data)
-}
-
-const cellStyle = {
-  header: {
-    font: {
-      bold: true,
-    },
-    alignment: {
-      wrapText: true,
-      horizontal: 'center',
-      vertical: 'center',
-    },
-  },
-}
-
-function setStyle(ws, row = 0, col) {
-  utils.sheet_get_cell(ws, row, col).s = cellStyle.header
 }

@@ -1,4 +1,4 @@
-import { exportExcel } from './xlsx'
+import { xlsxSave } from './xlsx'
 import { exportExcel as exportExcel3 } from './exceljs'
 import { genData } from './genData'
 export default {
@@ -10,7 +10,7 @@ export default {
     //   const urlType = url.includes('/') ? 'path' : 'name'
     //   moveFn({ [urlType]: url }, params)
     // }
-    app.config.globalProperties.$downXlsx = exportExcel
+    app.config.globalProperties.$downXlsx = xlsxSave
     app.config.globalProperties.$downExcel = exportExcel3
     app.config.globalProperties.$genData = genData
   },
